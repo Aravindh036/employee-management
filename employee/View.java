@@ -1,5 +1,6 @@
 package employee;
 import java.util.LinkedList;
+import employee.model.Employee;
 
 public class View {
     public void printAllNode(Employee emp) {
@@ -29,7 +30,10 @@ public class View {
         System.out.println(
                 "\n1.Add an Employee\n2.Edit Employee Details\n3.Delete Employee Details\n4.View an Employee's Details\n5.View all Employee's Details\n6.Import Records from CSV file\n7.Exit\n");
     }
-	public void homeChoices(){
+	public void userChoices(){
 		System.out.println("\n1.Login\n2.Change Password\n");
+	}
+	public void homeChoices(){
+		System.out.println("\n1.Admin\n2.Operator\n3.Employee\n");
 	}
 }

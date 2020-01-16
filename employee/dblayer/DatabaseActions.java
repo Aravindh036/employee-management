@@ -1,14 +1,17 @@
-package employee;
+package employee.dblayer;
 import java.sql.*;
 import java.util.LinkedList;
 import java.io.*;
+
+import employee.model.Employee;
+import employee.DataAccessException;
 
 public class DatabaseActions {
     Connection conn;
     PreparedStatement preparedStatement;
     ResultSet resultSet;
 
-    DatabaseActions() {
+    public DatabaseActions() {
         createEmployeeTable(getConnectionObject());
 		createAdminTable(getConnectionObject());
     }
@@ -37,7 +40,6 @@ public class DatabaseActions {
     }
 	
 	public void createAdminTable(Connection conn) {
-		
 		try {
 			DatabaseMetaData dbm = conn.getMetaData();
 			Statement statement  = conn.createStatement();
@@ -73,7 +75,7 @@ public class DatabaseActions {
         }
     }
 
-    protected PreparedStatement constructStatement(String query) {
+    public PreparedStatement constructStatement(String query) {
         conn = getConnectionObject();
         preparedStatement = null;
         try {
@@ -85,7 +87,7 @@ public class DatabaseActions {
         return preparedStatement;
     }
 
-    protected ResultSet executeStatement(PreparedStatement preparedStatement) {
+    public ResultSet executeStatement(PreparedStatement preparedStatement) {
         resultSet = null;
         try {
             resultSet = preparedStatement.executeQuery();
@@ -94,7 +96,7 @@ public class DatabaseActions {
         }
         return resultSet;
     }
-	protected boolean checkAdmin(String id, String password, String tableName){
+	public boolean checkCreds(String id, String password, String tableName){
 		String authQuery = "SELECT * FROM "+tableName+" WHERE id=? and password=?";
 		try{
 			preparedStatement = constructStatement(authQuery);
@@ -106,12 +108,12 @@ public class DatabaseActions {
 			}
 		}
 		catch(SQLException e){
-			throw new DataAccessException("Unable to fetch admin creds !");
+			throw new DataAccessException("Unable to fetch "+tableName+" creds !");
 		}
 		closeConnection();
 		return false;
 	}
-	protected void changePassword(String id, String password, String tableName){
+	public void changePassword(String id, String password, String tableName){
 		String changePasswordQuery = "UPDATE "+tableName+" SET password=? WHERE id=?";
 		//String changePasswordQuery = "UPDATE admin_auth SET password='hello world' WHERE id='admin-001'";
 		try{
@@ -127,7 +129,7 @@ public class DatabaseActions {
 			closeConnection();
 		}
 	}
-    protected void importCSV(String filePath,String tableName){
+    public void importCSV(String filePath,String tableName){
 		String line = "";
 		 try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             while ((line = br.readLine()) != null) {
@@ -164,7 +166,7 @@ public class DatabaseActions {
 		}
     }
 
-    protected boolean checkRecords(String tableName) {
+    public boolean checkRecords(String tableName) {
         String SQL_SELECT = "Select * from " + tableName;
         resultSet = executeStatement(constructStatement(SQL_SELECT));
         boolean found = false;
@@ -179,7 +181,7 @@ public class DatabaseActions {
         return found;
     }
 
-    protected LinkedList<Employee> getRecords(String tableName) {
+    public LinkedList<Employee> getRecords(String tableName) {
         String SQL_SELECT = "Select * from " + tableName;
         resultSet = executeStatement(constructStatement(SQL_SELECT));
         LinkedList<Employee> employeeList = new LinkedList<Employee>();
@@ -202,7 +204,7 @@ public class DatabaseActions {
         return employeeList;
     }
 
-    protected Object getColumnValue(String string, String tableName, String searchcolumName, String columnName) {
+    public Object getColumnValue(String string, String tableName, String searchcolumName, String columnName) {
         String SQL_SELECT = "Select * from " + tableName + " where " + searchcolumName + "=?";
         Object result = new Object();
         PreparedStatement preparedStatement;
@@ -223,7 +225,7 @@ public class DatabaseActions {
         return result;
     }
 
-    protected void deleteRecord(int id, String tableName) {
+    public void deleteRecord(int id, String tableName) {
         String SQL_SELECT = "DELETE FROM " + tableName + " WHERE id=?";
         PreparedStatement preparedStatement;
         try {
@@ -237,7 +239,7 @@ public class DatabaseActions {
         }
     }
 
-    protected void updateRecord(String name, String string, int id, String tableName) {
+    public void updateRecord(String name, String string, int id, String tableName) {
         String SQL_SELECT = "UPDATE " + tableName + " SET " + string + "= ? " + "WHERE id= ?";
         PreparedStatement preparedStatement;
         try {
@@ -252,7 +254,7 @@ public class DatabaseActions {
         }
     }
 
-    protected String constructQueryString(String name, String tableName, String columnName) {
+    public String constructQueryString(String name, String tableName, String columnName) {
         String SQL_SELECT = null;
         if (columnName == "mobile_number") {
             SQL_SELECT = "SELECT * FROM " + tableName + " WHERE "+columnName+"='" + name + "';";
@@ -262,7 +264,7 @@ public class DatabaseActions {
         return SQL_SELECT;
     }
 
-    protected boolean searchColumn(String name, String tableName, String columnName) {
+    public boolean searchColumn(String name, String tableName, String columnName) {
         resultSet = executeStatement(constructStatement(constructQueryString(name, tableName, columnName)));
         boolean found = false;
         try {
@@ -277,7 +279,7 @@ public class DatabaseActions {
         return found;
     }
 
-    protected LinkedList<Employee> getColumn(String name, String tableName, String columnName) {
+    public LinkedList<Employee> getColumn(String name, String tableName, String columnName) {
         resultSet = executeStatement(constructStatement(constructQueryString(name, tableName, columnName)));
         LinkedList<Employee> employeeList = new LinkedList<Employee>();
         try {
@@ -299,7 +301,7 @@ public class DatabaseActions {
         return employeeList;
     }
 
-    protected void saveToDb(Employee emp, String tableName) {
+    public void saveToDb(Employee emp, String tableName) {
         String SQL_SELECT = "INSERT INTO " + tableName + "(name,mobile_number,age,designation,salary) VALUES(?,?,?,?,?)";
         PreparedStatement preparedStatement;
         try {

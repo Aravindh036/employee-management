@@ -1,4 +1,5 @@
-package employee;
+package employee.model;
+
 public class Employee {
     private int id, age, salary;
     private String name, designation, number;
