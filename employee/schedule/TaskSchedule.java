@@ -1,4 +1,4 @@
-package employee;
+package employee.schedule;
 import java.util.TimerTask;
 
 import employee.dblayer.DatabaseActions;
@@ -6,7 +6,7 @@ import employee.dblayer.DatabaseActions;
 public class TaskSchedule extends TimerTask{
 	private String fileName;
 	private String tableName;
-	TaskSchedule(String fileName,String tableName){
+	public TaskSchedule(String fileName,String tableName){
 		this.fileName = fileName;
 		this.tableName = tableName;
 	}

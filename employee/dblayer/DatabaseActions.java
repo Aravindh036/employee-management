@@ -1,6 +1,7 @@
 package employee.dblayer;
 import java.sql.*;
 import java.util.LinkedList;
+import java.util.Properties;
 import java.io.*;
 
 import employee.model.Employee;
@@ -19,8 +20,12 @@ public class DatabaseActions {
     public Connection getConnectionObject() {
         if (conn == null) {
             try {
-                conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", "postgres",
-                        "6279and77@$");
+				Properties props = new Properties();
+				props.setProperty("user","postgres");
+				props.setProperty("password","6279and77@$");
+				props.setProperty("jaasApplicationName","employee");
+				props.setProperty("jaasLogin","true");
+                conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", props);
             } catch (SQLException e) {
                 throw new DataAccessException("Unable to connect to the database!"+e);
             }
@@ -256,10 +261,11 @@ public class DatabaseActions {
 
     public String constructQueryString(String name, String tableName, String columnName) {
         String SQL_SELECT = null;
-        if (columnName == "mobile_number") {
-            SQL_SELECT = "SELECT * FROM " + tableName + " WHERE "+columnName+"='" + name + "';";
-        } else if (columnName == "id") {
+		 if (columnName == "id") {
             SQL_SELECT = "select * from " + tableName + " where id=" + name;
+        }
+        else {
+            SQL_SELECT = "SELECT * FROM " + tableName + " WHERE "+columnName+"='" + name + "';";
         }
         return SQL_SELECT;
     }

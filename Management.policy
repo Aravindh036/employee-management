@@ -1,24 +1,9 @@
-grant codebase "file:./employee/-" {
-    permission javax.security.auth.AuthPermission "modifyPrincipals";
-};
-
-grant codebase "file:./employee/-" {
-   permission javax.security.auth.AuthPermission "createLoginContext.Sample";
+grant codebase "file:./employee.jar" {
+   permission javax.security.auth.AuthPermission "createLoginContext.employee";
    permission javax.security.auth.AuthPermission "doAsPrivileged";
+   permission javax.security.auth.AuthPermission "modifyPrincipals";
 };
 
-grant	codebase "file:./employee/-",
-	Principal employee.EmployeePrincipal "Admin" {
-  
+grant codebase "file:./employeeAction.jar", Principal employee.principal.EmployeePrincipal "Admin" {
+	 permission employee.principal.CustomPermission "sample";
 };
-
-grant	codebase "file:./employee/-",
-	Principal employee.EmployeePrincipal "Operator" {
-  
-};
-
-grant	codebase "file:./employee/-",
-	Principal employee.EmployeePrincipal "Employee" {
-  
-};
-

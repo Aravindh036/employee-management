@@ -17,9 +17,10 @@ public class LoginModuleClass implements LoginModule{
 	private CallbackHandler callbackHandler = null;
 	private boolean authentication = false;
 	private Subject subject;
-	private EmployeePrincipal employeePrincipal;
+	private EmployeePrincipal employeeType, employeeName;
 	private String name, password, choice;
 	private String choiceArray[] = {"Admin","Operator","Employee"};
+	private int id;
 	
 	@Override
 	public boolean login() throws LoginException{
@@ -59,7 +60,7 @@ public class LoginModuleClass implements LoginModule{
 				}
 				break;
 			case 3:
-				if(dbactions.checkCreds(name,password,"employee_auth")){
+				if(dbactions.checkCreds(name,password,"employee_auth")){					
 					System.out.println("login success");
 					authentication = true;
 				}
@@ -84,9 +85,12 @@ public class LoginModuleClass implements LoginModule{
 		if (authentication == false) {
             return false;
         } else {
-			employeePrincipal = new EmployeePrincipal(choiceArray[Integer.parseInt(choice)-1]);
-            if (!subject.getPrincipals().contains(employeePrincipal))
-                subject.getPrincipals().add(employeePrincipal);
+			employeeType = new EmployeePrincipal(choiceArray[Integer.parseInt(choice)-1]);
+			employeeName = new EmployeePrincipal(name);
+            if (!subject.getPrincipals().contains(employeeType)){
+				subject.getPrincipals().add(employeeType);	
+				subject.getPrincipals().add(employeeName);
+			}
 		}
 		return authentication;
 	}

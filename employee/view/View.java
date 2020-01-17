@@ -1,4 +1,4 @@
-package employee;
+package employee.view;
 import java.util.LinkedList;
 import employee.model.Employee;
 
@@ -9,7 +9,7 @@ public class View {
     }
 
     public void printNode(Employee emp) {
-        System.out.println("ID : " + emp.getNumber() + "\t" + "Name : " + emp.getName());
+        System.out.println("ID : " + emp.getId() + "\t" + "Name : " + emp.getName());
     }
 
     public void parseRecords(LinkedList<Employee> employeeList, boolean flag, boolean print) {
@@ -35,5 +35,13 @@ public class View {
 	}
 	public void homeChoices(){
 		System.out.println("\n1.Admin\n2.Operator\n3.Employee\n");
+	}
+
+	public void printOperationChoices() {
+        System.out.println("\n1.View an Employee's Details\n2.View all Employee's Details\n3.Exit\n");
+	}
+	
+	public void printEmployeeChoices() {
+        System.out.println("\n1.View an Employee's Details\n2.Exit\n");
 	}
 }
