@@ -11,7 +11,7 @@ public class EmployeeAction implements PrivilegedAction<EmployeeAction> {
     String tableName = "employee", filePath;
     private String name;
 
-    public EmployeeAction(String name){
+    public EmployeeAction(String name) {
         this.name = name;
     }
 
@@ -29,8 +29,12 @@ public class EmployeeAction implements PrivilegedAction<EmployeeAction> {
             switch (ch) {
             case 1:
                 helper.printHeading();
-                helper.parseRecords(dbactions.getColumn(this.name, tableName, "name"), true,
-                        true);
+                helper.parseRecords(dbactions.getColumn(this.name, tableName, "name"), true, true);
+                break;
+            case 2:
+                System.out.print("Enter the new Password : ");
+                String password = sc.nextLine();
+                dbactions.changePassword(name, password, "employee_auth");
                 break;
             default:
                 sc.close();

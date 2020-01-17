@@ -10,6 +10,11 @@ import employee.model.Employee;
 public class OperatorAction implements PrivilegedAction<OperatorAction> {
     String[] columnString = { "Name", "ID", "Age", "Designation", "Salary" };
     String tableName = "employee", filePath;
+    String id;
+
+    public OperatorAction(String id) {
+        this.id = id;
+    }
 
     @Override
     public OperatorAction run() {
@@ -68,6 +73,11 @@ public class OperatorAction implements PrivilegedAction<OperatorAction> {
                     System.out.println("No Records found");
                     break;
                 }
+                break;
+            case 3:
+                System.out.print("Enter the new Password : ");
+                String password = sc.nextLine();
+                dbactions.changePassword(id, password, "operator_auth");
                 break;
             default:
                 sc.close();

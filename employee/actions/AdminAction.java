@@ -2,16 +2,10 @@ package employee.actions;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.security.auth.Subject;
 
 import employee.dblayer.DatabaseActions;
 import employee.Driver;
@@ -22,7 +16,12 @@ import employee.schedule.TaskSchedule;
 public class AdminAction implements PrivilegedAction<AdminAction> {
     String[] columnString = { "Name", "ID", "Age", "Designation", "Salary" };
     String tableName = "employee", filePath;
-	
+    String id;
+
+    public AdminAction(String id) {
+        this.id = id;
+    }
+
     @Override
     public AdminAction run() {
         int ch;
@@ -192,6 +191,11 @@ public class AdminAction implements PrivilegedAction<AdminAction> {
                 Timer timer = new Timer();
                 timer.schedule(importCSVTask, interval * 60000, 60 * 60000);
                 System.out.println("Scheduler has been configured successfully, to do the import to the DB!");
+                break;
+            case 7:
+                System.out.print("Enter the new Password : ");
+                String password = sc.nextLine();
+                dbactions.changePassword(id, password, "admin_auth");
                 break;
             default:
                 sc.close();

@@ -1,4 +1,5 @@
 package employee.dblayer;
+
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -11,23 +12,28 @@ public class DatabaseActions {
     Connection conn;
     PreparedStatement preparedStatement;
     ResultSet resultSet;
-
+    private String adminAuthTable = "admin_auth";
+    private String employeeAuthTable = "employee_auth";
+    private String operatorAuthTable = "operator_auth";
     public DatabaseActions() {
         createEmployeeTable(getConnectionObject());
-		createAdminTable(getConnectionObject());
+        createAuthTable(getConnectionObject(), adminAuthTable, "admin-001", "admin@est");
+        createAuthTable(getConnectionObject(), employeeAuthTable, "emp-001", "emp@est");
+        createAuthTable(getConnectionObject(), operatorAuthTable, "opt-001", "opt@est");
+        System.out.println("in databaseAction constructor");
     }
 
     public Connection getConnectionObject() {
         if (conn == null) {
             try {
-				Properties props = new Properties();
-				props.setProperty("user","postgres");
-				props.setProperty("password","6279and77@$");
-				props.setProperty("jaasApplicationName","employee");
-				props.setProperty("jaasLogin","true");
+                Properties props = new Properties();
+                props.setProperty("user", "postgres");
+                props.setProperty("password", "6279and77@$");
+                props.setProperty("jaasApplicationName", "employee");
+                props.setProperty("jaasLogin", "true");
                 conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", props);
             } catch (SQLException e) {
-                throw new DataAccessException("Unable to connect to the database!"+e);
+                throw new DataAccessException("Unable to connect to the database!" + e);
             }
         }
         return conn;
@@ -43,37 +49,42 @@ public class DatabaseActions {
             throw new DataAccessException("Unable to create the table!");
         }
     }
-	
-	public void createAdminTable(Connection conn) {
-		try {
-			DatabaseMetaData dbm = conn.getMetaData();
-			Statement statement  = conn.createStatement();
-			ResultSet tables = dbm.getTables(null, null, "admin_auth", null);
-			boolean result = tables.next();
-			if (!result) {
-				String createTableQuery = "CREATE TABLE admin_auth(id VARCHAR(15) PRIMARY KEY,password VARCHAR(15))";
-				String insertAdminCredQuery = "INSERT INTO admin_auth(id,password) VALUES('admin-001','est@2224')";
-				conn.setAutoCommit(false);
-				statement.addBatch(createTableQuery);
-				statement.addBatch(insertAdminCredQuery);
-				statement.executeBatch();
-				conn.commit();
-				tables.close();
-				statement.close();
-			}
-			
+
+    public void createAuthTable(Connection conn, String tableName, String id, String password) {
+        try {
+            DatabaseMetaData dbm = conn.getMetaData();
+            Statement statement = conn.createStatement();
+            ResultSet tables = dbm.getTables(null, null, tableName, null);
+            boolean result = tables.next();
+            System.out.println(result);
+            if (!result) {
+                String createTableQuery = "CREATE TABLE " + tableName + "(id VARCHAR(15) PRIMARY KEY,password VARCHAR(15))";
+                String insertAdminCredQuery = "INSERT INTO " + tableName + "(id,password) VALUES('" + id + "','" + password + "')";
+                conn.setAutoCommit(false);
+                statement.addBatch(createTableQuery);
+                statement.addBatch(insertAdminCredQuery);
+                statement.executeBatch();
+                conn.commit();
+                tables.close();
+                statement.close();
+            }
+
         } catch (SQLException e) {
-            throw new DataAccessException("Unable to create the table!"+e);
+            throw new DataAccessException("Unable to create the table!" + tableName);
         }
     }
 
     public void closeConnection() {
-		try {
+        try {
             if (conn != null) {
-                resultSet.close();
-                preparedStatement.close();
                 conn.close();
                 conn = null;
+            }
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error in closing the database connections");
@@ -101,74 +112,73 @@ public class DatabaseActions {
         }
         return resultSet;
     }
-	public boolean checkCreds(String id, String password, String tableName){
-		String authQuery = "SELECT * FROM "+tableName+" WHERE id=? and password=?";
-		try{
-			preparedStatement = constructStatement(authQuery);
-			preparedStatement.setString(1,id);
-			preparedStatement.setString(2,password);
-			resultSet = executeStatement(preparedStatement);
-			while(resultSet.next()){
-				return true;
-			}
-		}
-		catch(SQLException e){
-			throw new DataAccessException("Unable to fetch "+tableName+" creds !");
-		}
-		closeConnection();
-		return false;
-	}
-	public void changePassword(String id, String password, String tableName){
-		String changePasswordQuery = "UPDATE "+tableName+" SET password=? WHERE id=?";
-		//String changePasswordQuery = "UPDATE admin_auth SET password='hello world' WHERE id='admin-001'";
-		try{
-			preparedStatement = constructStatement(changePasswordQuery);
-			preparedStatement.setString(1,password);
-			preparedStatement.setString(2,id);
-			preparedStatement.executeUpdate();
-		}
-		catch(SQLException e){
-			throw new DataAccessException("Unable to change password !"+e);
-		}
-		finally{
-			closeConnection();
-		}
-	}
-    public void importCSV(String filePath,String tableName){
-		String line = "";
-		 try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+
+    public boolean checkCreds(String id, String password, String tableName) {
+        String authQuery = "SELECT * FROM " + tableName + " WHERE id=? and password=?";
+        try {
+            preparedStatement = constructStatement(authQuery);
+            preparedStatement.setString(1, id);
+            preparedStatement.setString(2, password);
+            resultSet = executeStatement(preparedStatement);
+            while (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Unable to fetch " + tableName + " creds !");
+        }
+        closeConnection();
+        return false;
+    }
+
+    public void changePassword(String id, String password, String tableName) {
+        String changePasswordQuery = "UPDATE " + tableName + " SET password=? WHERE id=?";
+        // String changePasswordQuery = "UPDATE admin_auth SET password='hello world'
+        // WHERE id='admin-001'";
+        try {
+            preparedStatement = constructStatement(changePasswordQuery);
+            preparedStatement.setString(1, password);
+            preparedStatement.setString(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccessException("Unable to change password !" + e);
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public void importCSV(String filePath, String tableName) {
+        String line = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             while ((line = br.readLine()) != null) {
                 String[] employee = line.split(",");
-				if(!searchColumn(employee[1],tableName,"mobile_number")){
-					Employee emp = new Employee();
-					emp.setNumber(employee[1]);
-					emp.setName(employee[0]);
-					emp.setAge(Integer.parseInt(employee[2]));
-					emp.setDesignation(employee[3]);
-					emp.setSalary(Integer.parseInt(employee[4]));
-					saveToDb(emp,tableName);
-				}
-				else{
-					String SQL_QUERY = "UPDATE "+tableName+" SET name=?, age=?, designation=?, salary=? where mobile_number=?";
-					preparedStatement = constructStatement(SQL_QUERY);
-					preparedStatement.setString(1,employee[0]);
-					preparedStatement.setInt(2,Integer.parseInt(employee[2]));
-					preparedStatement.setString(3,employee[3]);
-					preparedStatement.setInt(4,Integer.parseInt(employee[4]));
-					preparedStatement.setString(5,employee[1]);
-					preparedStatement.executeUpdate();
-				}
+                if (!searchColumn(employee[1], tableName, "mobile_number")) {
+                    Employee emp = new Employee();
+                    emp.setNumber(employee[1]);
+                    emp.setName(employee[0]);
+                    emp.setAge(Integer.parseInt(employee[2]));
+                    emp.setDesignation(employee[3]);
+                    emp.setSalary(Integer.parseInt(employee[4]));
+                    saveToDb(emp, tableName);
+                } else {
+                    String SQL_QUERY = "UPDATE " + tableName
+                            + " SET name=?, age=?, designation=?, salary=? where mobile_number=?";
+                    preparedStatement = constructStatement(SQL_QUERY);
+                    preparedStatement.setString(1, employee[0]);
+                    preparedStatement.setInt(2, Integer.parseInt(employee[2]));
+                    preparedStatement.setString(3, employee[3]);
+                    preparedStatement.setInt(4, Integer.parseInt(employee[4]));
+                    preparedStatement.setString(5, employee[1]);
+                    preparedStatement.executeUpdate();
+                }
             }
 
         } catch (IOException e) {
             throw new DataAccessException("Unable to open the provided CSV file!");
+        } catch (SQLException e) {
+            throw new DataAccessException("Unable to import Records from CSV file" + e);
+        } finally {
+            closeConnection();
         }
-		catch(SQLException e){
-			throw new DataAccessException("Unable to import Records from CSV file"+e);
-		}
-		finally{
-			closeConnection();
-		}
     }
 
     public boolean checkRecords(String tableName) {
@@ -193,7 +203,7 @@ public class DatabaseActions {
         try {
             while (resultSet.next()) {
                 Employee emp = new Employee();
-				emp.setId(resultSet.getInt("id"));
+                emp.setId(resultSet.getInt("id"));
                 emp.setNumber(resultSet.getString("mobile_number"));
                 emp.setName(resultSet.getString("name"));
                 emp.setAge(resultSet.getInt("age"));
@@ -261,11 +271,10 @@ public class DatabaseActions {
 
     public String constructQueryString(String name, String tableName, String columnName) {
         String SQL_SELECT = null;
-		 if (columnName == "id") {
+        if (columnName == "id") {
             SQL_SELECT = "select * from " + tableName + " where id=" + name;
-        }
-        else {
-            SQL_SELECT = "SELECT * FROM " + tableName + " WHERE "+columnName+"='" + name + "';";
+        } else {
+            SQL_SELECT = "SELECT * FROM " + tableName + " WHERE " + columnName + "='" + name + "';";
         }
         return SQL_SELECT;
     }
@@ -291,7 +300,7 @@ public class DatabaseActions {
         try {
             while (resultSet.next()) {
                 Employee emp = new Employee();
-				emp.setId(resultSet.getInt("id"));
+                emp.setId(resultSet.getInt("id"));
                 emp.setNumber(resultSet.getString("mobile_number"));
                 emp.setName(resultSet.getString("name"));
                 emp.setAge(resultSet.getInt("age"));
@@ -308,12 +317,13 @@ public class DatabaseActions {
     }
 
     public void saveToDb(Employee emp, String tableName) {
-        String SQL_SELECT = "INSERT INTO " + tableName + "(name,mobile_number,age,designation,salary) VALUES(?,?,?,?,?)";
+        String SQL_SELECT = "INSERT INTO " + tableName
+                + "(name,mobile_number,age,designation,salary) VALUES(?,?,?,?,?)";
         PreparedStatement preparedStatement;
         try {
             preparedStatement = constructStatement(SQL_SELECT);
             preparedStatement.setString(1, emp.getName());
-			preparedStatement.setString(2, emp.getNumber());
+            preparedStatement.setString(2, emp.getNumber());
             preparedStatement.setInt(3, emp.getAge());
             preparedStatement.setString(4, emp.getDesignation());
             preparedStatement.setInt(5, emp.getSalary());
