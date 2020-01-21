@@ -1,5 +1,3 @@
-package employee;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -11,7 +9,7 @@ import java.util.Properties;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-
+@WebServlet(value = "/search")
 public class SearchEmployee extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -63,7 +61,7 @@ public class SearchEmployee extends HttpServlet {
 				System.out.println("Unable to close the connection!");
 			}
 		}
-		pw.println("<a href='/sampleServlet'>Go back</a>");
+		pw.println("<a href='/sampleServlet/list'>Go back</a>");
 		pw.println("</body>");
 		pw.println("</html>");
 		pw.close();

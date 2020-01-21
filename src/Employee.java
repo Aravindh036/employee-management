@@ -1,5 +1,3 @@
-package employee;
-
 public class Employee {
     private int id, age, salary;
     private String name, designation, number;
