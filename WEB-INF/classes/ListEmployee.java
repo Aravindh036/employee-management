@@ -9,10 +9,9 @@ import java.util.Properties;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-@WebServlet(value = "/search")
-public class SearchEmployee extends HttpServlet {
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+public class ListEmployee extends HttpServlet {
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String tableName = "employee";
 		res.setContentType("text/html");
 		PrintWriter pw = res.getWriter();
@@ -20,12 +19,10 @@ public class SearchEmployee extends HttpServlet {
 		//pw.println("<head><style> *{margin:0;border:0;box-sizing:border-box;font-family: 'Poppins', sans-serif;} body{width:100%;height:100vh;background-color:#537EFF;} .nav-container{width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background-color:#032380;color:#fff} input{padding:3px 10px; border-radius:4px;} </style></head>");
 		pw.println("<link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>");
 		pw.println("<body>");
-		pw.println("<nav class='nav-container'><h4>Employee Management</h4></nav>");
-		pw.println("<span class='result'>Search Result</span>");
+		pw.println("<nav class='nav-container'><h4>Employee Management</h4><form action='search' method='GET'><input type='text' placeholder='name' name='employeeName'/> <input type='submit' value='Search'/></form></nav>");
 		Connection conn = null;
 		ResultSet resultSet = null;
 		PreparedStatement statement =null;
-		String name = req.getParameter("employeeName");
 		try {
 			Properties props = new Properties();
 			props.setProperty("user", "postgres");
@@ -36,7 +33,7 @@ public class SearchEmployee extends HttpServlet {
 		} catch (SQLException e) {
 			System.out.println("Unable to connect to the database!" + e);
 		}
-		String SQL_SELECT = "Select * from " + tableName + " WHERE name LIKE '%"+name+"%'";
+		String SQL_SELECT = "Select * from " + tableName;
 		try {
 			statement = conn.prepareStatement(SQL_SELECT);
 			resultSet = statement.executeQuery();
@@ -61,7 +58,6 @@ public class SearchEmployee extends HttpServlet {
 				System.out.println("Unable to close the connection!");
 			}
 		}
-		pw.println("<a href='/sampleServlet/list'>Go back</a>");
 		pw.println("</body>");
 		pw.println("</html>");
 		pw.close();

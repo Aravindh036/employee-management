@@ -9,18 +9,23 @@ import java.util.Properties;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-@WebServlet(value = "/listAll")
 public class ListAllEmployee extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String tableName = "employee";
 		res.setContentType("text/html");
 		PrintWriter pw = res.getWriter();
+		String controlString = getServletConfig().getInitParameter("myParam");
 		pw.println("<html>");
 		//pw.println("<head><style> *{margin:0;border:0;box-sizing:border-box;font-family: 'Poppins', sans-serif;} body{width:100%;height:100vh;background-color:#537EFF;} .nav-container{width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background-color:#032380;color:#fff} input{padding:3px 10px; border-radius:4px;} </style></head>");
 		pw.println("<link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>");
 		pw.println("<body>");
-		pw.println("<nav class='nav-container'><h4>Employee Management</nav>");
-		pw.println("</h4><form action='delete' method='POST'><input type='number' placeholder='Employee ID' name='id'/> <input type='submit' value='Search'/></form>");
+		if(controlString.equals("delete")){
+			pw.println("<nav class='nav-container'><h4>Employee Management</nav>");
+			pw.println("</h4><form action='delete' method='POST'><input type='number' placeholder='Employee ID' name='id'/> <input type='submit' value='Search'/></form>");
+		}
+		else if(controlString.equals("search")){
+			pw.println("<nav class='nav-container'><h4>Employee Management</h4><form action='search' method='GET'><input type='text' placeholder='name' name='employeeName'/> <input type='submit' value='Search'/></form></nav>");
+		}
 		Connection conn = null;
 		ResultSet resultSet = null;
 		PreparedStatement statement =null;

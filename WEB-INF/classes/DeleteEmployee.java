@@ -9,7 +9,6 @@ import java.util.Properties;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-@WebServlet(value = "/delete")
 public class DeleteEmployee extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -81,7 +80,7 @@ public class DeleteEmployee extends HttpServlet {
 			pw.println("Provide the necessary details!");
 		}
 
-		pw.println("<a href='/sampleServlet/listAll'>Delete Another Employee's Details?</a>");
+		pw.println("<a href='/sampleServlet/delete-emp'>Delete Another Employee's Details?</a>");
 		pw.println("<a href='/sampleServlet/index.html'>Home</a>");
 		pw.println("</body>");
 		pw.println("</html>");
