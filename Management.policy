@@ -1,9 +1,0 @@
-grant codebase "file:./employee.jar" {
-   permission javax.security.auth.AuthPermission "createLoginContext.employee";
-   permission javax.security.auth.AuthPermission "doAsPrivileged";
-   permission javax.security.auth.AuthPermission "modifyPrincipals";
-};
-
-grant codebase "file:./employeeAction.jar", Principal employee.principal.EmployeePrincipal "Admin" {
-	 permission employee.principal.CustomPermission "sample";
-};

@@ -1,11 +1,20 @@
-package employee.dblayer;
-import java.sql.*;
+package employee;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Properties;
-import java.io.*;
 
-import employee.model.Employee;
 import employee.DataAccessException;
+import employee.model.Employee;
 
 public class DatabaseActions {
     Connection conn;
