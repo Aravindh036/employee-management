@@ -9,21 +9,23 @@ import java.util.Properties;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+
 public class SearchEmployee extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+		boolean found = false;
 		String tableName = "employee";
 		res.setContentType("text/html");
 		PrintWriter pw = res.getWriter();
 		pw.println("<html>");
-		//pw.println("<head><style> *{margin:0;border:0;box-sizing:border-box;font-family: 'Poppins', sans-serif;} body{width:100%;height:100vh;background-color:#537EFF;} .nav-container{width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background-color:#032380;color:#fff} input{padding:3px 10px; border-radius:4px;} </style></head>");
+		pw.println("<link href='main.css' rel='stylesheet'/>");
 		pw.println("<link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>");
 		pw.println("<body>");
 		pw.println("<nav class='nav-container'><h4>Employee Management</h4></nav>");
-		pw.println("<span class='result'>Search Result</span>");
+		pw.println("<div class='topic'><span>Search Results</span></div>");
+
 		Connection conn = null;
 		ResultSet resultSet = null;
-		PreparedStatement statement =null;
+		PreparedStatement statement = null;
 		String name = req.getParameter("employeeName");
 		try {
 			Properties props = new Properties();
@@ -35,32 +37,42 @@ public class SearchEmployee extends HttpServlet {
 		} catch (SQLException e) {
 			System.out.println("Unable to connect to the database!" + e);
 		}
-		String SQL_SELECT = "Select * from " + tableName + " WHERE name LIKE '%"+name+"%'";
+		String SQL_SELECT = "Select * from " + tableName + " WHERE name LIKE '%" + name + "%'";
 		try {
 			statement = conn.prepareStatement(SQL_SELECT);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				pw.println(resultSet.getInt("id"));
-				pw.println(resultSet.getString("mobile_number"));
-				pw.println(resultSet.getString("name"));
-				pw.println(resultSet.getInt("age"));
-				pw.println(resultSet.getString("designation"));
-				pw.println(resultSet.getInt("salary"));
+				if (!found) {
+					pw.println("<div class='table'>");
+					pw.println("<table class='employee'>");
+					pw.println(
+							"<tr><th>Id</th><th>Name</th><th>Number</th><th>Age</th><th>Designation</th><th>Salary</th></tr>");
+				}
+				found = true;
+				pw.println("<tr> <td>" + resultSet.getInt("id") + "</td>   <td>" + resultSet.getString("name")
+						+ "</td>   <td>" + resultSet.getString("mobile_number") + "</td>  <td>"
+						+ resultSet.getInt("age") + "</td> <td>" + resultSet.getString("designation") + "</td> <td>"
+						+ resultSet.getInt("salary") + "</td>  </tr>");
+			}
+			if (found) {
+				pw.println("</table>");
+				pw.println("</div>");
 			}
 		} catch (SQLException e) {
 			System.out.println("Unable to fetch the records from database!");
-		}
-		finally{
-			try{
+		} finally {
+			try {
 				resultSet.close();
 				statement.close();
 				conn.close();
-			}
-			catch(SQLException e){
+			} catch (SQLException e) {
 				System.out.println("Unable to close the connection!");
 			}
 		}
-		pw.println("<a href='/sampleServlet/search-emp'>Go back</a>");
+		if (!found) {
+			pw.println("<div class='search-result'><span>No records found</span></div>");
+		}
+		pw.println("<a href='/sampleServlet/list'>Go back</a>");
 		pw.println("</body>");
 		pw.println("</html>");
 		pw.close();

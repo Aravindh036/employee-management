@@ -16,12 +16,7 @@ public class DeleteEmployee extends HttpServlet {
 		res.setContentType("text/html");
 		PrintWriter pw = res.getWriter();
 		pw.println("<html>");
-		// pw.println("<head><style>
-		// *{margin:0;border:0;box-sizing:border-box;font-family: 'Poppins',
-		// sans-serif;} body{width:100%;height:100vh;background-color:#537EFF;}
-		// .nav-container{width:100%;padding:20px
-		// 40px;display:flex;justify-content:space-between;align-items:center;background-color:#032380;color:#fff}
-		// input{padding:3px 10px; border-radius:4px;} </style></head>");
+		pw.println("<link href='main.css' rel='stylesheet'/>");
 		pw.println("<link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>");
 		pw.println("<body>");
 		pw.println("<nav class='nav-container'><h4>Employee Management</h4></nav>");
@@ -62,7 +57,7 @@ public class DeleteEmployee extends HttpServlet {
 					preparedStatement = conn.prepareStatement(SQL_SELECT);
 					preparedStatement.setInt(1, Integer.parseInt(id));
 					preparedStatement.executeUpdate();		
-					pw.println("<span>Sucess, Employee Details Deleted</span>");
+					pw.println("<div class='topic'><span>Successfuly deleted the Employee ("+id+") details</span></div>");
 				}
 			} catch (SQLException e) {
 				pw.println("Error in deleting the Employee's Details for the ID :" + id);
@@ -77,10 +72,10 @@ public class DeleteEmployee extends HttpServlet {
 				}
 			} 
 		}else {
-			pw.println("Provide the necessary details!");
+			pw.println("<div class='topic'><span>Provide the necessary details!!!</span></div>");
 		}
 
-		pw.println("<a href='/sampleServlet/delete-emp'>Delete Another Employee's Details?</a>");
+		pw.println("<a href='/sampleServlet/delete-emp'>Delete Another Employee's Details ?</a>");
 		pw.println("<a href='/sampleServlet/index.html'>Home</a>");
 		pw.println("</body>");
 		pw.println("</html>");

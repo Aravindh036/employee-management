@@ -1,8 +1,8 @@
 <web-app>
 	<welcome-file-list>  
-	   <welcome-file>index.html</welcome-file>  
+	   <welcome-file>index.jsp</welcome-file>  
 	</welcome-file-list>  
-	<!-- <servlet>
+	<servlet>
 		<servlet-name>listEmployee</servlet-name>
 		<servlet-class>ListEmployee</servlet-class>
 	</servlet>
@@ -10,7 +10,7 @@
 		<servlet-name>listEmployee</servlet-name>
 		<url-pattern>/list</url-pattern>
 	</servlet-mapping>
-	 -->
+	
 	<servlet>
 		<servlet-name>search</servlet-name>
 		<servlet-class>SearchEmployee</servlet-class>
@@ -26,7 +26,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Add</servlet-name>
-		<url-pattern>/add</url-pattern>
+		<url-pattern>/add-emp</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -49,16 +49,12 @@
 	<servlet>
 		<servlet-name>DeleteEmployee</servlet-name>
 		<servlet-class>ListAllEmployee</servlet-class>
-		<init-param>
-			<param-name>control</param-name>
-			<param-value>delete</param-value>
-    	</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DeleteEmployee</servlet-name>
 		<url-pattern>/delete-emp</url-pattern>
 	</servlet-mapping>
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>SearchEmployee</servlet-name>
 		<servlet-class>ListAllEmployee</servlet-class>
 		<init-param>
@@ -69,5 +65,5 @@
 	<servlet-mapping>
 		<servlet-name>SearchEmployee</servlet-name>
 		<url-pattern>/search-emp</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 </web-app>

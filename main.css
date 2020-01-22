@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: #537eff;
+}
+.nav-container {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #032380;
+  color: #fff;
+  box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
+}
+input {
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  margin: 15px 20px;
+}
+a:hover{
+	color:#032380;
+	font-weight:bold;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.add-form div{
+	padding:10px 20px;
+	width:400px;
+	display:flex;
+	justify-content:space-between;
+}
+
+ input[type="text"], input[type="number"]{
+	padding:8px 10px;
+	color:#537eff;
+	font-weight:bold;
+}
+
+
+
+
+.add-form input[type="submit"], .emp-delete input[type="submit"], .emp-update input[type="submit"]{
+	padding:10px 30px;
+	background-color:#032380;
+	color:#fff;
+	margin-top:30px;
+	cursor:pointer;
+}
+
+.add-form{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.topic{
+	text-align:center;
+	margin:30px 0;
+}
+.topic span{
+	margin:20px 60px;
+	font-size:25px;
+}
+
+.options{
+	text-align:center;
+}
+.table{
+	display:flex;
+	justify-content:center;
+}
+.employee {
+  font-family: 'poppins';
+  border-collapse: collapse;
+  width: 80%;
+  margin:30px 40px;
+  box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
+}
+
+input[type="submit"]{
+	box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
+	transition: all 0.3s ease;
+}
+
+input[type="submit"]:hover,input[type="submit"]:active {
+	transform: scale(0.98);
+}
+
+.employee td, .employee th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.employee tr:nth-child(even){background-color: #f2f2f2;}
+
+.employee tr:nth-child(odd){background-color: #fff;}
+
+.employee tr:hover {background-color: #ddd;}
+
+.employee th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #032380;
+  color: white;
+}
+
+
+.emp-search{
+	padding:8px 20px;
+	background-color:#537eff;
+	color:#fff;
+	cursor:pointer;
+}
+
+.search-result{
+	text-align:center;
+}
+
+.search-result span{
+	font-weight:bold;
+}
+
+.delete-container div{
+	width:80%;
+}
+
+.delete-container{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.emp-update{
+	width:80%;
+	margin:0 auto;
+}
+
+.emp-update input[type="submit"]{
+	margin-left:20px;
+}

@@ -11,8 +11,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Properties;
 
-import employee.DataAccessException;
-import employee.model.Employee;
 
 public class DatabaseActions {
     Connection conn;
@@ -264,6 +262,23 @@ public class DatabaseActions {
         } finally {
             closeConnection();
         }
+    }
+	public void updateAllField(Employee emp, int id, String tableName) throws IOException {
+        String SQL_SELECT = "UPDATE " + tableName + " SET name=?, mobile_number=?, age=?, salary=?, designation=? WHERE id= ?";
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = constructStatement(SQL_SELECT);
+            preparedStatement.setString(1, emp.getName());
+            preparedStatement.setString(2, emp.getNumber());
+			preparedStatement.setInt(3, emp.getAge());
+			preparedStatement.setInt(4, emp.getSalary());
+			preparedStatement.setString(5, emp.getDesignation());
+			preparedStatement.setInt(6, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+			pw.println("e"+e);
+            throw new DataAccessException("Error in updating the Employee's");
+        } 
     }
 
     public String constructQueryString(String name, String tableName, String columnName) {

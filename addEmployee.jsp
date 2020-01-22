@@ -1,12 +1,13 @@
 <html>
 	<head>
 		<title>Add Employee</title>
+		 <link href="main.css" rel="stylesheet"/>
 		<link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>
 	<head>
 	<body>
 		<nav class='nav-container'><h4>Employee Management</h4></nav>
-		<span>Add Employee Details</span>
-		<form action="add" method="POST">
+		<div class="topic"><span>Add Employee Details</span></div>
+		<form class="add-form" action="add-emp" method="POST">
 			
 			<div class="name">
 				<span>Name</span>
