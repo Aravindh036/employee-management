@@ -7,7 +7,7 @@
 	<body>
 		<nav class='nav-container'><h4>Employee Management</h4></nav>
 		<div class="topic"><span>Add Employee Details</span></div>
-		<form class="add-form" action="add-emp" method="POST">
+		<form class="add-form" action="add" method="POST">
 			
 			<div class="name">
 				<span>Name</span>
@@ -31,5 +31,6 @@
 			</div>
 			<input type="submit" value="Add Employee">
 		</form>
+		<a href='/sampleServlet/'>Go back</a>
 	</body>
 </html>

@@ -43,7 +43,7 @@ public class SearchEmployee extends HttpServlet {
 		if (!found) {
 			pw.println("<div class='search-result'><span>No records found</span></div>");
 		}
-		pw.println("<a href='/sampleServlet/list'>Go back</a>");
+		pw.println("<a href='/sampleServlet/listEmployee.jsp'>Go back</a>");
 		pw.println("</body>");
 		pw.println("</html>");
 		pw.close();

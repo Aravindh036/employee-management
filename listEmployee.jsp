@@ -8,14 +8,13 @@
 		<link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>
 	</head>
 	<body>
-	<nav class='nav-container'><h4>Employee Management</h4></nav>
-		<div class="topic"><span>Update Employee Details</span></div>
-		<div class="emp-update">
-			<form action="getDetails.jsp" method="GET">
-				<input type="number" placeholder="Employee ID" name="id"/>
-				<input type="submit" value="Search Employee"/>
-			</form>
-		</div>
+	<nav class='nav-container'>
+		<h4>Employee Management</h4>
+		<form action='search' method='GET'>
+			<input type='text' placeholder='name' name='employeeName'/> 
+			<input type='submit' value='Search'  class='emp-search'/>
+		</form>
+	</nav>
 		<%
 			String tableName = "employee";
 			DatabaseActions dbactions = new DatabaseActions();

@@ -1,0 +1,1 @@
+javac -cp d:servlet-api.jar; src\employee\servlets\*.java src\employee\dblayer\DatabaseActions.java src\employee\exception\DataAccessException.java src\employee\model\Employee.java -d WEB-INF\classes

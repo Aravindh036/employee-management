@@ -1,5 +1,6 @@
 <%@ page import="java.sql.*,java.util.Properties"%>
 <%@ page import="employee.dblayer.DatabaseActions" %>
+<%@ page import="employee.model.Employee"%>
 <html>
 	<head>
 		<title>Dashboard</title>
@@ -15,6 +16,7 @@
 			String tableName="employee";
 			if(dbactions.searchColumn(request.getParameter("id"), tableName, "id"))
 			{
+				for (Employee emp : dbactions.getColumn(request.getParameter("id"),tableName,"id")) {
 			%>
 				<form class="add-form"  action="update" method="POST">
 					<div class="id">
@@ -23,27 +25,28 @@
 					</div>
 					<div class="name">
 						<span>Name</span>
-						<input type="text" name="name" id="emp-name">
+						<input type="text" name="name" id="emp-name" value="<%=emp.getName()%>">
 					</div>
 					<div class="mobile-number">
 						<span>Mobile Number</span>
-						<input type="number" name="mobile" id="emp-mobile">
+						<input type="number" name="mobile" id="emp-mobile" value="<%=emp.getNumber()%>">
 					</div>
 					<div class="age">
 						<span>Age</span>
-						<input type="number" name="age" id="emp-age">
+						<input type="number" name="age" id="emp-age" value="<%=emp.getAge()%>">
 					</div>
 					<div class="designation">
 						<span>Designation</span>
-						<input type="text" name="designation" id="emp-designation">
+						<input type="text" name="designation" id="emp-designation" value="<%=emp.getDesignation()%>">
 					</div>
 					<div class="salary">
 						<span>Salary</span>
-						<input type="number" name="salary" id="emp-salary">
+						<input type="number" name="salary" id="emp-salary" value="<%=emp.getSalary()%>">
 					</div>
 					<input type="submit" value="Update Employee">
 				</form>
 			<%
+				}
 			}
 			else{
 			%>
@@ -51,5 +54,6 @@
 			<%
 			}
 		%>
+		<a href='/sampleServlet/updateEmployee.jsp'>Go back</a>
 	</body>
 </html>

@@ -10,7 +10,7 @@
 		<div class="options">
 			<a href="/sampleServlet/addEmployee.jsp">Add Employee Details</a>
 			<a href="/sampleServlet/listEmployee.jsp">Search Employee</a>
-			<a href="/sampleServlet/delete-emp">Delete Employee Details</a>
+			<a href="/sampleServlet/deleteEmployee.jsp">Delete Employee Details</a>
 			<a href="/sampleServlet/updateEmployee.jsp">Update Employee Details</a>
 		</div>
 	</body>
