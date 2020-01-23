@@ -9,7 +9,7 @@
 	<div class="topic"><span>Available Options</span></div>
 		<div class="options">
 			<a href="/sampleServlet/addEmployee.jsp">Add Employee Details</a>
-			<a href="/sampleServlet/list">Search Employee</a>
+			<a href="/sampleServlet/listEmployee.jsp">Search Employee</a>
 			<a href="/sampleServlet/delete-emp">Delete Employee Details</a>
 			<a href="/sampleServlet/updateEmployee.jsp">Update Employee Details</a>
 		</div>

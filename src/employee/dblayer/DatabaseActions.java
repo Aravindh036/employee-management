@@ -1,3 +1,4 @@
+package employee.dblayer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,6 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Properties;
+
+import employee.exception.*;
+import employee.model.*;
 
 
 public class DatabaseActions {
@@ -189,6 +193,29 @@ public class DatabaseActions {
         }
         closeConnection();
         return found;
+    }
+	
+	 public LinkedList<Employee> getSearchResults(String tableName, String searchQuery) {
+        String SQL_SELECT = "Select * from " + tableName + " WHERE name LIKE '%" + searchQuery + "%'";
+        resultSet = executeStatement(constructStatement(SQL_SELECT));
+        LinkedList<Employee> employeeList = new LinkedList<Employee>();
+        try {
+            while (resultSet.next()) {
+                Employee emp = new Employee();
+				emp.setId(resultSet.getInt("id"));
+                emp.setNumber(resultSet.getString("mobile_number"));
+                emp.setName(resultSet.getString("name"));
+                emp.setAge(resultSet.getInt("age"));
+                emp.setDesignation(resultSet.getString("designation"));
+                emp.setSalary(resultSet.getInt("salary"));
+                employeeList.add(emp);
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Unable to fetch the records from database!");
+        } finally {
+            closeConnection();
+        }
+        return employeeList;
     }
 
     public LinkedList<Employee> getRecords(String tableName) {

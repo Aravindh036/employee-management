@@ -1,4 +1,5 @@
 <%@ page import="java.sql.*,java.util.Properties"%>
+<%@ page import="employee.dblayer.DatabaseActions" %>
 <html>
 	<head>
 		<title>Dashboard</title>
@@ -9,43 +10,10 @@
 	<nav class='nav-container'><h4>Employee Management</h4></nav>
 		<div class="topic"><span>Update Employee Details</span></div>
 		<%
+			DatabaseActions dbactions = new DatabaseActions();
 			int id = Integer.parseInt(request.getParameter("id"));
 			String tableName="employee";
-			boolean found = false;
-			Connection conn = null;
-			ResultSet resultSet = null;
-			PreparedStatement statement =null;
-			try {
-				Properties props = new Properties();
-				props.setProperty("user", "postgres");
-				props.setProperty("password", "6279and77@$");
-				props.setProperty("jaasApplicationName", "employee");
-				props.setProperty("jaasLogin", "true");
-				conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", props);
-			} catch (SQLException e) {
-				System.out.println("Unable to connect to the database!" + e);
-			}
-			String SQL_SELECT = "Select * from " + tableName +" WHERE id = "+id;
-			try {
-				statement = conn.prepareStatement(SQL_SELECT);
-				resultSet = statement.executeQuery();
-				while (resultSet.next()) {
-					found = true;
-				}
-			} catch (SQLException e) {
-				System.out.println("Unable to fetch the records from database!");
-			}
-			finally{
-				try{
-					resultSet.close();
-					statement.close();
-					conn.close();
-				}
-				catch(SQLException e){
-					System.out.println("Unable to close the connection!");
-				}
-			}
-			if(found)
+			if(dbactions.searchColumn(request.getParameter("id"), tableName, "id"))
 			{
 			%>
 				<form class="add-form"  action="update" method="POST">
@@ -79,7 +47,7 @@
 			}
 			else{
 			%>
-				<span>No Record found for the Employee ID</span>
+				<div class="align-center m-t-100"><span>No Record found for the Employee ID</span></div>
 			<%
 			}
 		%>

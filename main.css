@@ -49,6 +49,7 @@ input::-webkit-inner-spin-button {
 	padding:8px 10px;
 	color:#537eff;
 	font-weight:bold;
+	box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
 }
 
 
@@ -75,6 +76,7 @@ input::-webkit-inner-spin-button {
 .topic span{
 	margin:20px 60px;
 	font-size:25px;
+	font-weight:bold;
 }
 
 .options{
@@ -128,8 +130,32 @@ input[type="submit"]:hover,input[type="submit"]:active {
 	cursor:pointer;
 }
 
-.search-result{
+.search-result, .align-center{
 	text-align:center;
+}
+
+.m-t-100{
+	margin:100px;
+}
+
+.m-t-200{
+	margin:200px;
+}
+
+.m-t-300{
+	margin:300px;
+}
+
+.m-t-400{
+	margin:400px;
+}
+
+.m-t-500{
+	margin:500px;
+}
+
+.m-t-600{
+	margin:600px;
 }
 
 .search-result span{

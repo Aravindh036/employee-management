@@ -4,7 +4,7 @@
 	</welcome-file-list>  
 	<servlet>
 		<servlet-name>listEmployee</servlet-name>
-		<servlet-class>ListEmployee</servlet-class>
+		<servlet-class>employee.servlets.ListEmployee</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>listEmployee</servlet-name>
@@ -13,7 +13,7 @@
 	
 	<servlet>
 		<servlet-name>search</servlet-name>
-		<servlet-class>SearchEmployee</servlet-class>
+		<servlet-class>employee.servlets.SearchEmployee</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>search</servlet-name>
@@ -22,7 +22,7 @@
 	
 	<servlet>
 		<servlet-name>Add</servlet-name>
-		<servlet-class>AddEmployee</servlet-class>
+		<servlet-class>employee.servlets.AddEmployee</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Add</servlet-name>
@@ -31,7 +31,7 @@
 	
 	<servlet>
 		<servlet-name>Update</servlet-name>
-		<servlet-class>UpdateEmployee</servlet-class>
+		<servlet-class>employee.servlets.UpdateEmployee</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Update</servlet-name>
@@ -40,7 +40,7 @@
 	
 	<servlet>
 		<servlet-name>Delete</servlet-name>
-		<servlet-class>DeleteEmployee</servlet-class>
+		<servlet-class>employee.servlets.DeleteEmployee</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Delete</servlet-name>
@@ -48,7 +48,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>DeleteEmployee</servlet-name>
-		<servlet-class>ListAllEmployee</servlet-class>
+		<servlet-class>employee.servlets.ListAllEmployee</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DeleteEmployee</servlet-name>
