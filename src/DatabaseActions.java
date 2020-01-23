@@ -276,7 +276,6 @@ public class DatabaseActions {
 			preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-			pw.println("e"+e);
             throw new DataAccessException("Error in updating the Employee's");
         } 
     }
