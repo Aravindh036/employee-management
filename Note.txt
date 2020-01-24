@@ -1,0 +1,8 @@
+Add it in the server.xml in conf directory- 
+<Realm className="org.apache.catalina.realm.JDBCRealm" debug="99"
+driverName="org.postgresql.Driver"
+connectionURL="jdbc:postgresql://127.0.0.1:5432/postgres?user=postgres&amp;password=password"
+userTable="users" userNameCol="user_name" userCredCol="user_pass"
+userRoleTable="user_roles" roleNameCol="role_name"/>
+
+place postgres jdbc driver in the lib directory.
