@@ -32,7 +32,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>search</servlet-name>
-		<url-pattern>/search</url-pattern>
+		<url-pattern>/admin/search</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -41,7 +41,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Add</servlet-name>
-		<url-pattern>/add</url-pattern>
+		<url-pattern>/admin/add</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -50,7 +50,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Update</servlet-name>
-		<url-pattern>/update</url-pattern>
+		<url-pattern>/admin/update</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -59,17 +59,9 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Delete</servlet-name>
-		<url-pattern>/delete</url-pattern>
+		<url-pattern>/admin/delete</url-pattern>
 	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>Logout</servlet-name>
-		<servlet-class>employee.servlets.LogoutAdmin</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Logout</servlet-name>
-		<url-pattern>/logout</url-pattern>
-	</servlet-mapping>
+
 	<!-- <servlet>
 		<servlet-name>SearchEmployee</servlet-name>
 		<servlet-class>ListAllEmployee</servlet-class>
@@ -82,4 +74,8 @@
 		<servlet-name>SearchEmployee</servlet-name>
 		<url-pattern>/search-emp</url-pattern>
 	</servlet-mapping> -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/jsp/403.jsp</location>
+	</error-page>
 </web-app>

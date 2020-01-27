@@ -36,8 +36,8 @@ public class DeleteEmployee extends HttpServlet {
 		}else {
 			pw.println("<div class='topic'><span>Provide the necessary details!!!</span></div>");
 		}
-		pw.println("<a href='/sampleServlet/deleteEmployee.jsp'>Delete Another Employee's Details ?</a>");
-		pw.println("<a href='/sampleServlet/index.jsp'>Home</a>");
+		pw.println("<a href='/sampleServlet/admin/deleteEmployee.jsp'>Delete Another Employee's Details ?</a>");
+		pw.println("<a href='/sampleServlet/admin/index.jsp'>Home</a>");
 		pw.println("</body>");
 		pw.println("</html>");
 		pw.close();

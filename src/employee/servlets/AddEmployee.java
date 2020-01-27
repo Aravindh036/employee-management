@@ -42,8 +42,8 @@ public class AddEmployee extends HttpServlet {
 		}else {
 			pw.println("Provide the necessary details!");
 		}
-		pw.println("<a href='/sampleServlet/addEmployee.jsp'>Add Another Employee ?</a>");
-		pw.println("<a href='/sampleServlet/index.jsp'>Home</a>");
+		pw.println("<a href='/sampleServlet/admin/addEmployee.jsp'>Add Another Employee ?</a>");
+		pw.println("<a href='/sampleServlet/admin/index.jsp'>Home</a>");
 		pw.println("</body>");
 		pw.println("</html>");
 		pw.close();

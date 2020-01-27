@@ -6,7 +6,6 @@
 }
 body {
   width: 100%;
-  height: 100vh;
   background-color: #537eff;
 }
 .nav-container {
@@ -52,9 +51,6 @@ input::-webkit-inner-spin-button {
 	box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
 	width:194px;
 }
-
-
-
 
 .add-form input[type="submit"], .emp-delete input[type="submit"], .emp-update input[type="submit"]{
 	padding:10px 30px;

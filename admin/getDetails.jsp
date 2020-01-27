@@ -54,6 +54,6 @@
 			<%
 			}
 		%>
-		<a href='/sampleServlet/updateEmployee.jsp'>Go back</a>
+		<a href='/sampleServlet/admin/updateEmployee.jsp'>Go back</a>
 	</body>
 </html>

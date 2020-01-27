@@ -6,3 +6,5 @@ userTable="users" userNameCol="user_name" userCredCol="user_pass"
 userRoleTable="user_roles" roleNameCol="role_name"/>
 
 place postgres jdbc driver in the lib directory.
+
+place the customRealm jar in lib directory of the tomcat_home.
