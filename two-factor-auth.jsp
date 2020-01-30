@@ -71,18 +71,36 @@
 		min-width: 304px;
 		max-width: 620px;
 		height: 330px;
+		box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
+		border-radius:4px;
 	}
-
+	.iframe{
+		text-align:center;
+	}
+	.base-wrapper {
+		border:0!important;
+	}
+	
 	</style>
+	<script src="Duo-Web-v2.js"></script>
 	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
 </head>
 <body>
-	<div class="topic"><span>Access Denied (Error code : 403)</span></div>
-	<div class="options">
-		<a href="/sampleServlet/">Logout</a>
-	</div>
-	<%
-		session.invalidate();
+	<div class="topic"><span>Two Factor Authentication</span></div>
+	<% 
+		String duoIntegrationKey = "DIP8GKFBFD0SXIBA8FE8";
+		String duoSecretKey = "RmGwUK5j8PG2tLmzAjkThaSkBcoJOVQ6f6VbR7k8";
+		String duoApplicationKey = "QpWTYCufqU4npxKJtFNmRwA9JID9AZGBO1S4U1Iw";
+		String signedRequest = DuoWeb.signRequest(duoIntegrationKey,duoSecretKey,duoApplicationKey, "admin");
 	%>
+	<div class="iframe">
+		<iframe id="duo_iframe"
+		frameBorder="0"
+		data-host="api-9c2ee39c.duosecurity.com"
+		data-sig-request="<%=signedRequest%>"
+		data-post-action="/sampleServlet/admin/success.jsp"
+		data-post-argument="resp"
+		></iframe>
+	</div>
 </body>
 </html>

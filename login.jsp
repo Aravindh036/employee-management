@@ -1,3 +1,4 @@
+<%@ page session="true"%>
 <html>
 <head>
 <link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>
@@ -110,5 +111,7 @@
 		</div>
 		<input type="submit" value="Continue">
 	</form>
+    <%= session
+ %>
 </body>
 </html>

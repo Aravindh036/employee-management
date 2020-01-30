@@ -72,17 +72,21 @@
 		max-width: 620px;
 		height: 330px;
 	}
-
+	.iframe{
+		text-align:center;
+	}
 	</style>
+	<script src="Duo-Web-v2.js"></script>
 	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
 </head>
 <body>
-	<div class="topic"><span>Access Denied (Error code : 403)</span></div>
-	<div class="options">
-		<a href="/sampleServlet/">Logout</a>
-	</div>
 	<%
-		session.invalidate();
+		session.setAttribute("key",request.getParameter("resp"));
+		session.setAttribute("login","done");
 	%>
+	<div class="topic"><span>Login Sucess</span></div>
+	<div class = "options">
+		<a href="/sampleServlet/admin/index.jsp">Home</a>
+	</div>
 </body>
 </html>
