@@ -2,10 +2,20 @@
 	<security-constraint>
 	  <web-resource-collection>
 		<web-resource-name>Admin</web-resource-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/admin/*</url-pattern>
 	  </web-resource-collection>
 	  <auth-constraint>
 		<role-name>admin</role-name>
+	  </auth-constraint>
+	</security-constraint>
+    
+    <security-constraint>
+	  <web-resource-collection>
+		<web-resource-name>User</web-resource-name>
+		<url-pattern>/user/*</url-pattern>
+	  </web-resource-collection>
+	  <auth-constraint>
+		<role-name>user</role-name>
 	  </auth-constraint>
 	</security-constraint>
 
@@ -19,6 +29,7 @@
 	
 	<security-role>
 	  <role-name>admin</role-name>
+      <role-name>user</role-name>
 	</security-role>
 
 	
@@ -70,16 +81,8 @@
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
-	<!-- <servlet>
-		<servlet-name>SearchEmployee</servlet-name>
-		<servlet-class>ListAllEmployee</servlet-class>
-		<init-param>
-			<param-name>control</param-name>
-			<param-value>search</param-value>
-    	</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SearchEmployee</servlet-name>
-		<url-pattern>/search-emp</url-pattern>
-	</servlet-mapping> -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/jsp/403.jsp</location>
+	</error-page>
 </web-app>

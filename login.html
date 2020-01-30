@@ -100,16 +100,22 @@
 </head>
 <body>
 	<div class="topic"><span>Login</span></div>
-	<form class="add-form" method="POST" action="j_security_check">
-		<div class="name">
-			<span class="bold">Name</span>
-			<input type="text" name="j_username" id="emp-name">
-		</div>
-		<div class="mobile-number">
-			<span class="bold">Password</span>
-			<input type="password" name="j_password" id="emp-mobile">
-		</div>
-		<input type="submit" value="Continue">
-	</form>
+	<%
+	if(){
+		 %>
+		<form class="add-form" method="POST" action="j_security_check">
+			<div class="name">
+				<span class="bold">Name</span>
+				<input type="text" name="j_username" id="emp-name">
+			</div>
+			<div class="mobile-number">
+				<span class="bold">Password</span>
+				<input type="password" name="j_password" id="emp-mobile">
+			</div>
+			<input type="submit" value="Continue">
+		</form>
+		<%
+	}
+		 %>
 </body>
 </html>

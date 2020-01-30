@@ -14,7 +14,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
-public class CustomLoginModule implements LoginModule {
+public class TwoFALoginModule implements LoginModule {
 
   private CallbackHandler handler;
   private Subject subject;
@@ -38,17 +38,23 @@ public class CustomLoginModule implements LoginModule {
     Callback[] callbacks = new Callback[2];
     callbacks[0] = new NameCallback("login");
     callbacks[1] = new PasswordCallback("password", true);
-
     try {
       handler.handle(callbacks);
       String name = ((NameCallback) callbacks[0]).getName();
       String password = String.valueOf(((PasswordCallback) callbacks[1])
           .getPassword());
-        System.out.println("in custom login file "+name);
-      if (name != null && name.equals("admin") && password != null && password.equals("admin")) {
+		if(password.length()<20){
+			System.out.println("in primary auth");
 			login = name;
 			userGroups = new ArrayList<String>();
 			userGroups.add("admin");
+			return true;
+		}
+		System.out.println("in custom login file "+name);
+      if (name != null && name.equals("admin") && password != null && password.equals("admin")) {
+			login = name;
+			userGroups = new ArrayList<String>();
+			userGroups.add("user");
 			return true;
       }
 
@@ -85,7 +91,7 @@ public class CustomLoginModule implements LoginModule {
 
   @Override
   public boolean logout() throws LoginException {
-	  System.out.println("in logout in custom login module");
+	System.out.println("in logout in 2fa login module");
     subject.getPrincipals().remove(userPrincipal);
     subject.getPrincipals().remove(rolePrincipal);
     return true;
