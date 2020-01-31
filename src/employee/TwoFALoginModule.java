@@ -13,6 +13,7 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
+import com.duosecurity.duoweb.DuoWeb;
 
 public class TwoFALoginModule implements LoginModule {
 
@@ -43,18 +44,30 @@ public class TwoFALoginModule implements LoginModule {
       String name = ((NameCallback) callbacks[0]).getName();
       String password = String.valueOf(((PasswordCallback) callbacks[1])
           .getPassword());
-		if(password.length()<20){
-			System.out.println("in primary auth");
+			System.out.println("username : "+name);
+			System.out.println("password : "+password);
+		if(name.length()>20){
 			login = name;
-			userGroups = new ArrayList<String>();
-			userGroups.add("admin");
-			return true;
+			String authenticatedUser="";
+			String duoIntegrationKey = "DIP8GKFBFD0SXIBA8FE8";
+			String duoSecretKey = "RmGwUK5j8PG2tLmzAjkThaSkBcoJOVQ6f6VbR7k8";
+			String duoApplicationKey = "QpWTYCufqU4npxKJtFNmRwA9JID9AZGBO1S4U1Iw";
+			authenticatedUser = DuoWeb.verifyResponse(duoIntegrationKey,duoSecretKey,duoApplicationKey,name);
+			System.out.println(authenticatedUser);
+			if(authenticatedUser.equals("admin")){
+				userGroups = new ArrayList<String>();
+				userGroups.add("user");
+				userGroups.add("admin");
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
-		System.out.println("in custom login file "+name);
       if (name != null && name.equals("admin") && password != null && password.equals("admin")) {
 			login = name;
 			userGroups = new ArrayList<String>();
-			userGroups.add("user");
+			userGroups.add("admin");
 			return true;
       }
 

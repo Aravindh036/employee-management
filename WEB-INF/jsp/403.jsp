@@ -64,17 +64,21 @@
 <body>
 <% 
    if(request.isUserInRole("admin")){
-			 session.invalidate();
-			 response.setIntHeader("Refresh",0);
-	 		 session.setAttribute("role","admin");
+			session.invalidate();
+	 		response.setIntHeader("Refresh",0);
+	 %>
+		<script>
+			sessionStorage.setItem("role","admin");
+		</script>
+		<%
    }
 	 else{
+			 session.invalidate();
 	 %>
 			<div class="topic"><span>Access Denied (Error code : 403)</span></div>
 			<div class="options">
 				<a href="/sampleServlet/">Logout</a>
 			</div>
-	
 		<%
 	 }
 %>

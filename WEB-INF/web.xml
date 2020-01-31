@@ -2,7 +2,7 @@
 	<security-constraint>
 	  <web-resource-collection>
 		<web-resource-name>Admin</web-resource-name>
-		<url-pattern>/admin/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	  </web-resource-collection>
 	  <auth-constraint>
 		<role-name>admin</role-name>
@@ -12,7 +12,7 @@
     <security-constraint>
 	  <web-resource-collection>
 		<web-resource-name>User</web-resource-name>
-		<url-pattern>/user/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	  </web-resource-collection>
 	  <auth-constraint>
 		<role-name>user</role-name>
@@ -22,7 +22,7 @@
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
-			<form-login-page>/login.html</form-login-page>
+			<form-login-page>/login.jsp</form-login-page>
 			<form-error-page>/login-failed.html</form-error-page>
 		</form-login-config>
 	</login-config>

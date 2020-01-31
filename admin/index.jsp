@@ -14,5 +14,9 @@
 			<a href="/sampleServlet/admin/updateEmployee.jsp">Update Employee Details</a>
 			<a href="/sampleServlet/admin/logout.jsp">Logout</a>
 		</div>
+		<script>
+			console.log("hello world");
+			sessionStorage.clear();
+		</script>
 	</body>
 </html>

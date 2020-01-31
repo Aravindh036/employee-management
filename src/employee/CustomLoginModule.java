@@ -44,14 +44,15 @@ public class CustomLoginModule implements LoginModule {
       String name = ((NameCallback) callbacks[0]).getName();
       String password = String.valueOf(((PasswordCallback) callbacks[1])
           .getPassword());
-        System.out.println("in custom login file "+name);
+			if(name.length()>20){
+				return true;
+			}
       if (name != null && name.equals("admin") && password != null && password.equals("admin")) {
-			login = name;
-			userGroups = new ArrayList<String>();
-			userGroups.add("admin");
-			return true;
+				login = name;
+				userGroups = new ArrayList<String>();
+				userGroups.add("admin");
+				return true;
       }
-
       throw new LoginException("Authentication failed");
 
     } catch (IOException e) {
@@ -85,7 +86,6 @@ public class CustomLoginModule implements LoginModule {
 
   @Override
   public boolean logout() throws LoginException {
-	  System.out.println("in logout in custom login module");
     subject.getPrincipals().remove(userPrincipal);
     subject.getPrincipals().remove(rolePrincipal);
     return true;
