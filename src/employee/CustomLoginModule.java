@@ -13,6 +13,8 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
+import com.duosecurity.duoweb.DuoWeb;
+import com.dblayer.DatabaseActions;
 
 public class CustomLoginModule implements LoginModule {
 
@@ -35,26 +37,26 @@ public class CustomLoginModule implements LoginModule {
 
   @Override
   public boolean login() throws LoginException {
+		
+   DatabaseActions dbactions = new DatabaseActions();
     Callback[] callbacks = new Callback[2];
     callbacks[0] = new NameCallback("login");
     callbacks[1] = new PasswordCallback("password", true);
-
     try {
       handler.handle(callbacks);
       String name = ((NameCallback) callbacks[0]).getName();
       String password = String.valueOf(((PasswordCallback) callbacks[1])
           .getPassword());
-			if(name.length()>20){
-				return true;
-			}
-      if (name != null && name.equals("admin") && password != null && password.equals("admin")) {
+			System.out.println("name : -->>"+name);
+			System.out.println("password : -->>"+password);
+			System.out.println("outside dataaction");
+      if(dbactions.checkCreds(name,password,"users")){
+				dbactions.updateLogging(1,"logging","user_log");
+				System.out.println("inside dataaction");
 				login = name;
-				userGroups = new ArrayList<String>();
-				userGroups.add("admin");
-				return true;
+				return false;
       }
       throw new LoginException("Authentication failed");
-
     } catch (IOException e) {
       throw new LoginException(e.getMessage());
     } catch (UnsupportedCallbackException e) {

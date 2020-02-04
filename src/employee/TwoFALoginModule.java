@@ -14,6 +14,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import com.duosecurity.duoweb.DuoWeb;
+import java.lang.Exception;
 
 public class TwoFALoginModule implements LoginModule {
 
@@ -52,7 +53,12 @@ public class TwoFALoginModule implements LoginModule {
 			String duoIntegrationKey = "DIP8GKFBFD0SXIBA8FE8";
 			String duoSecretKey = "RmGwUK5j8PG2tLmzAjkThaSkBcoJOVQ6f6VbR7k8";
 			String duoApplicationKey = "QpWTYCufqU4npxKJtFNmRwA9JID9AZGBO1S4U1Iw";
-			authenticatedUser = DuoWeb.verifyResponse(duoIntegrationKey,duoSecretKey,duoApplicationKey,name);
+			try{
+				authenticatedUser = DuoWeb.verifyResponse(duoIntegrationKey,duoSecretKey,duoApplicationKey,name);
+			}
+			catch(Exception e){
+				
+			}
 			System.out.println(authenticatedUser);
 			if(authenticatedUser.equals("admin")){
 				userGroups = new ArrayList<String>();
@@ -64,12 +70,6 @@ public class TwoFALoginModule implements LoginModule {
 				return false;
 			}
 		}
-      if (name != null && name.equals("admin") && password != null && password.equals("admin")) {
-			login = name;
-			userGroups = new ArrayList<String>();
-			userGroups.add("admin");
-			return true;
-      }
 
       throw new LoginException("Authentication failed");
 

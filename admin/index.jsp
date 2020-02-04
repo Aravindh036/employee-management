@@ -1,3 +1,4 @@
+<%@ page import="com.dblayer.DatabaseActions"%>
 <html>
 	<head>
 		<title>Add Employee</title>
@@ -14,9 +15,9 @@
 			<a href="/sampleServlet/admin/updateEmployee.jsp">Update Employee Details</a>
 			<a href="/sampleServlet/admin/logout.jsp">Logout</a>
 		</div>
-		<script>
-			console.log("hello world");
-			sessionStorage.clear();
-		</script>
+			<%
+				 DatabaseActions dbactions = new DatabaseActions();
+				 dbactions.updateLogging(0,"logging","user_log");
+			%>
 	</body>
 </html>

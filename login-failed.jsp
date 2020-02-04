@@ -1,59 +1,44 @@
 <%@ page import="com.duosecurity.duoweb.DuoWeb"%>
-<%@ page import="java.lang.Exception"%>
-<html>
-<head>
+	<%@ page import="com.dblayer.DatabaseActions"%>
+<html><head>
 <link href='https://fonts.googleapis.com/css?family=Poppins&display=swap' rel='stylesheet'>
-	<style>
-	* {
-	  margin: 0;
-	  border: 0;
-	  box-sizing: border-box;
-	  font-family: "Poppins", sans-serif;
+<style>
+	*{
+		font-family: 'poppins'
 	}
 	body {
-	  width: 100%;
-	  height: 100vh;
-	  background-color: #537eff;
+		text-align:center;
+		background-color: #537eff;
 	}
-	input {
-	  padding: 3px 10px;
-	  border-radius: 4px;
-	}
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-	  -webkit-appearance: none;
-	  margin: 0;
-	}
-	.add-form div{
-		padding:10px 20px;
-		width:400px;
-		display:flex;
-		justify-content:space-between;
-	}
-
-	 input[type="text"], input[type="number"], input[type="password"]{
-		padding:8px 10px;
-		color:#537eff;
+	p{
+		margin-top:150px;
+		font-family:'poppins';
 		font-weight:bold;
+		font-size:18px;
+	}
+	a {
+	  text-decoration: none;
+	  color: #fff;
+	  display: block;
+	  margin: 15px 20px;
+	}
+	a:hover{
+		color:#032380;
+		font-weight:bold;
+	}
+		iframe {
+		width: 100%;
+		min-width: 304px;
+		max-width: 620px;
+		height: 330px;
 		box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
-		width:194px;
+		border-radius:4px;
+		border: 0;
 	}
-
-	.add-form input[type="submit"], .emp-delete input[type="submit"], .emp-update input[type="submit"]{
-		padding:10px 30px;
-		background-color:#032380;
-		color:#fff;
-		margin-top:30px;
-		cursor:pointer;
+	.iframe{
+		text-align:center;
 	}
-
-	.add-form{
-		display:flex;
-		flex-direction:column;
-		align-items:center;
-	}
-
-	.topic{
+		.topic{
 		text-align:center;
 		margin:30px 0;
 	}
@@ -62,60 +47,8 @@
 		font-size:25px;
 		font-weight:bold;
 	}
-	input[type="submit"]{
-		box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
-		transition: all 0.3s ease;
-	}
-
-	input[type="submit"]:hover,input[type="submit"]:active {
-		transform: scale(0.98);
-	}
-	.m-t-100{
-		margin:100px;
-	}
-
-	.m-t-200{
-		margin:200px;
-	}
-
-	.m-t-300{
-		margin:300px;
-	}
-
-	.m-t-400{
-		margin:400px;
-	}
-
-	.m-t-500{
-		margin:500px;
-	}
-
-	.m-t-600{
-		margin:600px;
-	}
-	.bold{
-		font-weight:bold;
-		font-size:15px;
-	}
-	iframe {
-		width: 100%;
-		min-width: 304px;
-		max-width: 620px;
-		height: 330px;
-		box-shadow:0 2px 4px rgba(0, 0, 0, 0.336);
-		border-radius:4px;
-	}
-	.iframe{
-		text-align:center;
-	}
-	</style>
-	<meta http-equiv="content-type" content="text/html; charset=windows-1252">
-	<script>
-			/**
- * Duo Web SDK v2
- * Copyright 2019, Duo Security
- */
-
+</style>
+		<script>
 (function (root, factory) {
     /*eslint-disable */
     if (typeof define === 'function' && define.amd) {
@@ -691,19 +624,33 @@
 }));
 
 		</script>
-</head>
-<body>
-		<div class="topic"><span>Login</span></div>
-		<form class="add-form" method="POST" action="j_security_check">
-			<div class="name">
-				<span class="bold">Name</span>
-				<input type="text" name="j_username" id="emp-name">
-			</div>
-			<div class="mobile-number">
-				<span class="bold">Password</span>
-				<input type="password" name="j_password" id="emp-mobile">
-			</div>
-			<input type="submit" value="Continue">
-		</form>
-</body>
-</html>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body><p>
+Sorry, login failed!
+<a href="/sampleServlet">Login again ?</a>
+
+<script>
+	<%
+	 DatabaseActions dbactions = new DatabaseActions();
+	 int loggedin = dbactions.getLogging("user_log");
+	%>
+	var user_logged = "<%=loggedin%>";
+if(user_logged==1){
+		document.querySelector('body').innerHTML = `<div class="topic"><span>Two Factor Authentication</span></div><div class="iframe"><iframe id="duo_iframe"></iframe></div>`;
+		<%
+			String duoIntegrationKey = "DIP8GKFBFD0SXIBA8FE8";
+			String duoSecretKey = "RmGwUK5j8PG2tLmzAjkThaSkBcoJOVQ6f6VbR7k8";
+			String duoApplicationKey = "QpWTYCufqU4npxKJtFNmRwA9JID9AZGBO1S4U1Iw";
+			String signedRequest = DuoWeb.signRequest(duoIntegrationKey,duoSecretKey,duoApplicationKey, "admin"); 
+		%>
+		var signed_request="<%=signedRequest%>";
+		Duo.init({
+			'host': 'api-9c2ee39c.duosecurity.com',
+			'sig_request': signed_request,
+			'post_action': 'j_security_check',
+			'post_argument':'j_username'
+		});
+	 }
+
+</script>
+</p>
+</body></html>
